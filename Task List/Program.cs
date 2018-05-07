@@ -52,12 +52,7 @@ namespace Task_List
                             }
                             Console.WriteLine("\nGo back to main menu? (y/n)");
                             done = Console.ReadLine();
-                                while (done.ToLower() != "y" && done.ToLower() != "n")
-                                {
-                                    Console.WriteLine("Error: That was not an option");
-                                    Console.WriteLine("Go back to main menu? (y/n)");
-                                    done = Console.ReadLine();
-                                }
+                            BackToMain(done);
                         }
                         Menu();
                         input = Console.ReadLine();
@@ -80,7 +75,7 @@ namespace Task_List
                                 bool validDate = DateTime.TryParse(dateInput, out duedate);
                                 while (!validDate)
                                 {
-                                    Console.WriteLine("Error that was not a valid date. Please try again.");
+                                    ErrorMessage();
                                     Console.WriteLine("Enter due date of task: ");
                                     dateInput = Console.ReadLine();                                
                                     validDate = DateTime.TryParse(dateInput, out duedate);
@@ -89,12 +84,7 @@ namespace Task_List
                             taskList.Add(new Task(user, description, duedate)); //creates new task object and puts it in the list 
                             Console.WriteLine("Item Added! Add another? (y/n)");
                             cont = Console.ReadLine();
-                            while (cont.ToLower() != "y" && cont.ToLower() != "n")
-                            {
-                                Console.WriteLine("Error: That was not an option");
-                                Console.WriteLine("Add another item? (y/n)");
-                                cont = Console.ReadLine();
-                            }
+                            BackToMain(cont);
                         }
                         Menu();
                         input = Console.ReadLine();
@@ -113,7 +103,7 @@ namespace Task_List
                             bool validNum = int.TryParse(item, out delNum);
                                 while (!validNum || delNum > taskList.Count || delNum < 0) //while loop to test whether number of item to delete is valid
                                 {                                    
-                                    Console.WriteLine("Error: That was not a valid number. Please try again.");
+                                    ErrorMessage();
                                     Console.WriteLine($"Enter the number of the item you want to enter: 1-{taskList.Count}");
                                     item = Console.ReadLine();
                                     validNum = int.TryParse(item, out delNum);
@@ -123,12 +113,7 @@ namespace Task_List
 
                             Console.WriteLine("Item deleted! Delete another? (y/n)");
                             another = Console.ReadLine();
-                            while (another.ToLower() != "y" && another.ToLower() != "n")
-                            {
-                                Console.WriteLine("Error: That was not an option");
-                                Console.WriteLine("Delete another? (y/n)");
-                                another = Console.ReadLine();
-                            }
+                            BackToMain(another);
                         }
                         Menu();
                         input = Console.ReadLine();
@@ -146,7 +131,7 @@ namespace Task_List
                             bool validCom = int.TryParse(item, out completedNum);
                             while (!validCom || completedNum > taskList.Count || completedNum < 0) //while loop to test whether number of item to delete is valid
                             {
-                                Console.WriteLine("Error: That was not a valid number. Please try again.");
+                                ErrorMessage();
                                 Console.WriteLine($"Enter the number of the item you want to enter: 1-{taskList.Count}");
                                 item = Console.ReadLine();
                                 validCom = int.TryParse(item, out completedNum);
@@ -156,30 +141,21 @@ namespace Task_List
 
                             Console.WriteLine("Item marked complete! Mark another? (y/n)");
                             again = Console.ReadLine();
-                            while (again.ToLower() != "y" && again.ToLower() != "n")
-                            {
-                                Console.WriteLine("Error: That was not an option");
-                                Console.WriteLine("Mark another? (y/n)");
-                                again = Console.ReadLine();
-                            }
+                            BackToMain(again);
                         }
                         Menu();
                         input = Console.ReadLine();
                         valid = int.TryParse(input, out num);
                         break;
                     default:
-                        Console.WriteLine("Error: You entered an invalid option. Please try again.");
+                        ErrorMessage();
                         Menu();
                         input = Console.ReadLine();
                         valid = int.TryParse(input, out num);
-                        break;
-                
-
+                        break;                             
                 }
 
-            }
-            
-            
+            }            
             //Pause before Close
             Console.WriteLine("Press any key to exit. .");
             Console.ReadKey();
@@ -197,6 +173,20 @@ namespace Task_List
 
         }
 
+        static void BackToMain(string input)
+        {
+            while (input.ToLower() != "y" && input.ToLower() != "n")
+            {
+                Console.WriteLine("Error: That was not an option");
+                Console.WriteLine("Add another item? (y/n)");
+                input = Console.ReadLine();
+            }
+        }
 
+        static void ErrorMessage()
+        {
+            Console.WriteLine("Error: You entered an invalid input. Please try again.");
+            
+        }
     }
 }
